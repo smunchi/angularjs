@@ -1,34 +1,20 @@
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-<div ng-app="myApp" ng-controller="myController" ng-init="quantity='4';quality='3'; names=[{'name':'rahim', 'roll':2}, {'name':'karim', 'roll':3}]">
-    Type name: <input type="text" name="fullname" ng-model="name"/><br>
-    you typed <span style="color: red">{{name}}  {{5+5}}</span>
-    <p><span ng-bind="firstname"></span> <span ng-bind="name"></span></p> 
-    <div ng-controller="subjectController">
-        <p ng-bind="subject"></p>
-        <p>Nice {{name}}<span ng-bind="subject"></span></p>
-        <p>{{quality*quantity}}</p>
-        <p ng-bind="quality*quantity"></p>
-    </div>
+<div ng-app="myApp" ng-controller="myController" style="margin: 0 auto; width: 500px; border: 1px solid activeborder; padding: 10px; margin-top: 50px">
+    <div style="color: blue">{{message}}</div>    
+    <br/><span style="color: #003956">Search here  </span><input type="text" ng-model="test"/>
     <ul>
-        <li ng-repeat="x in names">
-            {{x.roll}}
+        <li style="color: green" ng-repeat="x in names |filter:test| orderBy:'roll'">
+            {{x.name}}
         </li>
     </ul>
 </div>
 
 <script>
  var app = angular.module("myApp", []);
- app.controller('myController', function($scope) {
-    $scope.firstname = 'Mr';
+ app.controller('myController', function($scope, $http) {
+    $scope.message = 'Welcome to angular js';
+    $http.get("serverScript.php").success(function(response) {
+    $scope.names = response;
+    });
  });
- app.controller("subjectController", function($scope) {
-    $scope.subject = "angular js";
- });
- 
- var currentDate = new Date();
-var startDate = new Date();
- for (var i = 0; i <=4; i++) {
-      currentDate.setTime(startDate.getTime() + (i*86400000));
-console.log(currentDate);
-    }
 </script>
